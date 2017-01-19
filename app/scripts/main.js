@@ -1,6 +1,7 @@
 var entryNo = $('#todos li').length;
 
 $('form').on('submit', function(e) {
+  "use strict";
 	e.preventDefault();
 	var todo = $('#todo').val();
 	var str = [];
