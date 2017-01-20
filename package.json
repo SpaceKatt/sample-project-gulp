@@ -28,7 +28,8 @@
     "gulp-cssnano": "^2.1.2",
     "gulp-less": "^3.3.0",
     "gulp-standard": "^8.0.3",
-    "gulp-uglify": "^2.0.0"
+    "gulp-uglify": "^2.0.0",
+    "wiredep": "^4.0.0"
   },
   "standard": {
     "globals": [

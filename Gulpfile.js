@@ -7,6 +7,7 @@ var minifyCSS = require('gulp-cssnano')
 var prefix = require('gulp-autoprefixer')
 var del = require('del')
 var bSync = require('browser-sync')
+var wiredep = require('wiredep').stream
 
 gulp.task('clean', function () {
   return del(['dist'])
@@ -47,9 +48,15 @@ gulp.task('server', function (done) {
   done()
 })
 
+gulp.task('deps', function () {
+  return gulp.src('app/**/*.html')
+    .pipe(wiredep())
+    .pipe(gulp.dest('dist'))
+})
+
 gulp.task('default',
   gulp.series('clean',
-    gulp.parallel('styles', 'scripts'),
+    gulp.parallel('styles', 'scripts', 'deps'),
     'server',
     function watcher (done) {
       gulp.watch(
