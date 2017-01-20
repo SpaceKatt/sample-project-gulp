@@ -6,6 +6,7 @@ var less = require('gulp-less')
 var minifyCSS = require('gulp-cssnano')
 var prefix = require('gulp-autoprefixer')
 var del = require('del')
+var bSync = require('browser-sync')
 
 gulp.task('clean', function () {
   return del(['dist'])
@@ -37,8 +38,32 @@ gulp.task('scripts',
   })
 )
 
+gulp.task('server', function (done) {
+  bSync({
+    server: {
+      baseDir: ['dist', 'app']
+    }
+  })
+  done()
+})
+
 gulp.task('default',
   gulp.series('clean',
-    gulp.parallel('styles', 'scripts')
+    gulp.parallel('styles', 'scripts'),
+    'server',
+    function watcher (done) {
+      gulp.watch(
+        ['app/scripts/**/*.js', '!app/scripts/vendor/**/*.js'],
+        gulp.parallel('scripts')
+      )
+      gulp.watch(
+        ['app/styles/**/*.less']
+      )
+      gulp.watch(
+        'dist/**/*',
+        bSync.reload
+      )
+      done()
+    }
   )
 )
